@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BOMBAY COACHING CLASSES - STD 10 Social Science Test</title>
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --secondary: #2563eb;
+            --accent: #d97706;
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --text: #1e293b;
+            --correct: #16a34a;
+            --incorrect: #dc2626;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--card);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .header {
+            text-align: center;
+            border-bottom: 3px solid var(--primary);
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+        }
+
+        .header h1 {
+            color: var(--primary);
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .header h2 {
+            color: var(--accent);
+            margin: 5px 0;
+            font-size: 18px;
+        }
+
+        .info-bar {
+            display: flex;
+            justify-content: space-between;
+            background: #eff6ff;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            margin-bottom: 25px;
+        }
+
+        .q-card {
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 18px;
+            margin-bottom: 20px;
+            transition: all 0.2s ease;
+        }
+
+        .q-text {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #0f172a;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+
+        @media (min-width: 600px) {
+            .options-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .option-btn {
+            display: flex;
+            align-items: center;
+            padding: 10px 14px;
+            border: 2px solid #cbd5e1;
+            border-radius: 6px;
+            cursor: pointer;
+            background: #fff;
+            font-size: 14px;
+            transition: all 0.2s ease;
+        }
+
+        .option-btn:hover {
+            border-color: var(--secondary);
+            background: #f0f9ff;
+        }
+
+        .option-btn input[type="radio"] {
+            margin-right: 10px;
+            accent-color: var(--secondary);
+        }
+
+        .submit-btn {
+            display: block;
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 15px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 30px;
+        }
+
+        .submit-btn:hover {
+            background: var(--secondary);
+        }
+
+        .results {
+            display: none;
+            text-align: center;
+            background: #f0fdf4;
+            border: 2px solid var(--correct);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+        }
+
+        .results h2 {
+            color: var(--correct);
+            margin: 0 0 10px 0;
+        }
+
+        .correct-opt {
+            background-color: #dcfce7 !important;
+            border-color: var(--correct) !important;
+            color: #14532d;
+            font-weight: bold;
+        }
+
+        .incorrect-opt {
+            background-color: #fee2e2 !important;
+            border-color: var(--incorrect) !important;
+            color: #7f1d1d;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>BOMBAY COACHING CLASSES</h1>
+        <h2>STD 10 Social Science - Full Objective Test</h2>
+        <p>Chapters: 1, 2, 3, 4, 8, 9, 10, 15, 16, 17 | Total Questions: 96 | Marks: 96</p>
+    </div>
+
+    <div class="info-bar">
+        <span>Total Questions: 96</span>
+        <span id="score-display">Score: -- / 96</span>
+    </div>
+
+    <div id="results-box" class="results">
+        <h2 id="final-score">You Scored: 0 / 96</h2>
+        <p id="feedback-msg"></p>
+    </div>
+
+    <form id="quiz-form">
+        <div id="questions-container"></div>
+        <button type="button" class="submit-btn" onclick="evaluateQuiz()">Submit & Check Score</button>
+    </form>
+</div>
+
+<script>
+const quizData = [
+    // Matching 1-13
+    { q: "1. Bahucharaji Fair is located at which place?", options: ["Stockholm", "Mahesana", "Viramgam", "Ahwa"], answer: 1 },
+    { q: "2. Which musical work was written by Pandit Ahobale?", options: ["Sangeet Ratnakar", "Sangeet Parijat", "Prithviraj Raso", "Abhigyan Shakuntalam"], answer: 1 },
+    { q: "3. Which bird is known as the 'Cleanliness worker of nature'?", options: ["Eagle", "Peacock", "Vulture", "Crow"], answer: 2 },
+    { q: "4. Which place in Gujarat is prominent for Wind Energy production?", options: ["Mahesana", "Thanjavur", "Lambha", "Junagadh"], answer: 2 },
+    { q: "5. Where was the historic Earth Conference held in 1972?", options: ["Stockholm", "Geneva", "Chicago", "London"], answer: 0 },
+    { q: "6. Which city was the Capital of the Chola Dynasty?", options: ["Viramgam", "Thanjavur", "Bikaner", "Modhera"], answer: 1 },
+    { q: "7. Where is Munsar Lake situated?", options: ["Viramgam", "Ahwa", "Dhanduka", "Badgaon"], answer: 0 },
+    { q: "8. Who is the author of 'Abhigyan Shakuntalam'?", options: ["Chandbardai", "Kalidas", "Amir Khushroo", "Maharshi Panini"], answer: 1 },
+    { q: "9. Who composed the famous epic 'Prithviraj Raso'?", options: ["Kalidas", "Tansen", "Chandbardai", "Pandit Ahobale"], answer: 2 },
+    { q: "10. Which city is world-famous for its traditional Inlay Work?", options: ["Bikaner", "Thanjavur", "Junagadh", "Somnath"], answer: 0 },
+    { q: "11. Where is the famous Bhavnath Fair held?", options: ["Ahwa", "Mahesana", "Junagadh", "Surendranagar"], answer: 2 },
+    { q: "12. Where is the Tarnetar Fair organized?", options: ["Surendranagar", "Ahwa", "Junagadh", "Viramgam"], answer: 0 },
+    { q: "13. Where is the 'Dang's Darbar Fair' celebrated?", options: ["Ahwa", "Mahesana", "Junagadh", "Bhavnagar"], answer: 0 },
+
+    // True / False 14-21
+    { q: "14. State whether True or False: Tanjavar was the capital of the Chola Dynasty.", options: ["True", "False"], answer: 0 },
+    { q: "15. State whether True or False: There are four groups of caves in Junagadh.", options: ["True", "False"], answer: 1 },
+    { q: "16. State whether True or False: Lothal is situated in Dhanduka taluka of Ahmedabad district.", options: ["True", "False"], answer: 1 },
+    { q: "17. State whether True or False: Atharvaveda describes various types of rituals and sanskaras.", options: ["True", "False"], answer: 0 },
+    { q: "18. State whether True or False: The composed literature based on philosophy is known as Aranyakas.", options: ["True", "False"], answer: 1 },
+    { q: "19. State whether True or False: Ancient Nalanda University was situated at Badgaon village of Patna district in Bihar.", options: ["True", "False"], answer: 0 },
+    { q: "20. State whether True or False: Local people are permitted to collect wood and graze animals in reserved forests.", options: ["True", "False"], answer: 1 },
+    { q: "21. State whether True or False: By multiplying total income by total population, we obtain per capita income.", options: ["True", "False"], answer: 1 },
+
+    // Fill in the blanks 22-26
+    { q: "22. The 'World Religious Conference' was held in which city?", options: ["Chicago", "New-York", "Geneva", "London"], answer: 0 },
+    { q: "23. The Wildlife Protection Act was enacted in which year in India?", options: ["1952", "1972", "1876", "1986"], answer: 1 },
+    { q: "24. The Indian Government constituted the Indian Board for Wildlife in which year?", options: ["1952 A.D.", "1976 A.D.", "1986 A.D.", "1992 A.D."], answer: 0 },
+    { q: "25. Which species is found in the cold forests of Eastern Himalayas?", options: ["Snow Leopard", "Red Panda", "Musk Deer", "Tiger"], answer: 1 },
+    { q: "26. The concept of poverty was first propounded by the director of WHO, named:", options: ["Adam Smith", "Byod Orr", "Amartya Sen", "Karl Marx"], answer: 1 },
+
+    // Standard MCQs 27-74
+    { q: "27. Which language does not belong to the Dravid language group?", options: ["Hindi", "Tamil", "Kannada", "Malayalam"], answer: 0 },
+    { q: "28. Find out the correct match:", options: ["Shardapeeth - Somnath", "Polo Festival - Vadnagar", "Northern Dance Festival - Modhera", "Sidi Saiyed Grill - Bhavnagar"], answer: 2 },
+    { q: "29. The word 'Lokmata' is used for:", options: ["Bharat", "Nature", "Rivers", "Paniharies"], answer: 2 },
+    { q: "30. On which day is 'World Yoga Day' celebrated?", options: ["21st June", "1st May", "21st April", "5th September"], answer: 0 },
+    { q: "31. Siddhis, the performers of Dhamaal dance, were native of:", options: ["Rajasthan", "Andaman", "Africa", "Thailand"], answer: 2 },
+    { q: "32. What does 'Chaado' dance mean?", options: ["Tribal Dance", "Dance of Bharvaad", "Dance of Kolis", "Dance of Padharaas"], answer: 0 },
+    { q: "33. Who is known as 'Tuti-e-Hind' in the field of Indian music?", options: ["Tansen", "Tulsidas", "Amir Khushroo", "Kabir"], answer: 2 },
+    { q: "34. Which Veda is specifically associated with music?", options: ["Rigveda", "Samveda", "Yajurveda", "Atharvaveda"], answer: 1 },
+    { q: "35. With which dance style are Vyjayanthimala and Hema Malini associated?", options: ["Manipuri", "Kuchipudi", "Kathakali", "Bharatanatyam"], answer: 3 },
+    { q: "36. Which of the following is a famous work of Kalidas?", options: ["Urubhanga", "Karnabhakar", "Meghdoot", "Dutvakyam"], answer: 2 },
+    { q: "37. Which mosque is situated near Teen Darwaza in Ahmedabad?", options: ["Jama Masjid", "Jumma Masjid", "Masjid of Sipri", "Masjid-e-Nageena"], answer: 0 },
+    { q: "38. The famous Sun Temple of Gujarat is situated at:", options: ["Modhera", "Vadnagar", "Kheralu", "Vijapur"], answer: 0 },
+    { q: "39. In which ancient script/language are stone inscriptions engraved?", options: ["Hindi", "Brahmi", "Urdu", "Odia"], answer: 1 },
+    { q: "40. What was built at Lothal to facilitate incoming ships?", options: ["Hail", "Pillar", "Dockyard", "Grill"], answer: 2 },
+    { q: "41. What is another word used for architecture in the Sanskrit language?", options: ["Vastu", "Carving", "Temple", "Ruins"], answer: 0 },
+    { q: "42. Which is the famous grammar literary composition of Maharshi Panini?", options: ["Ashtadhyayi", "Prithviraj Raso", "Vikramankdev Charit", "Chandrayan"], answer: 0 },
+    { q: "43. Which is the first literary composition of poet Chandbardai in Hindi literature?", options: ["Prithviraj Raso", "Vikramankdev Charit", "Kaviraj Marg", "Malayalam"], answer: 0 },
+    { q: "44. Which is the oldest language among the Dravidian languages?", options: ["Tamil", "Telugu", "Kannada", "Gujarati"], answer: 0 },
+    { q: "45. In which language is ancient Buddhist literature mainly written?", options: ["Pali", "Hindi", "Brahmi", "Gujarati"], answer: 0 },
+    { q: "46. Which is the most ancient book of Indian literature?", options: ["Rigveda", "Yajurveda", "Samveda", "Atharvaveda"], answer: 0 },
+    { q: "47. Recently, the soils of India have been classified into how many types by ICAR?", options: ["Seven", "Sixteen", "Five", "Eight"], answer: 3 },
+    { q: "48. What is the other name for Padkhau soil?", options: ["Alluvial soil", "Laterite soil", "Black soil", "Red soil"], answer: 1 },
+    { q: "49. Soil formation takes place due to which elements of parental rocks?", options: ["Weathering and erosion", "Transportation and stagnancy", "Sequence and non-sequence", "Vertical and headwords"], answer: 0 },
+    { q: "50. Resources available at only one or two places in the world are called:", options: ["Universal resources", "Commonly available resources", "Rare resources", "Solitary resources"], answer: 3 },
+    { q: "51. Which of the following is designated as a Biosphere Reserve Zone?", options: ["Periyar", "Dachigam", "Corbett", "Pachmarhi"], answer: 3 },
+    { q: "52. How many total species of animals and birds are recorded in the world?", options: ["Twelve lakh", "Fifteen lakh", "Thirteen lakh", "Ten lakh"], answer: 1 },
+    { q: "53. Forests controlled by local self-government institutions are called:", options: ["Village forests", "Sanctuary forests", "Collective community forests", "Jhoom forests"], answer: 2 },
+    { q: "54. Which wildlife species has become completely extinct from Gujarat?", options: ["Gudhkhar", "Bear", "Tiger", "Leopard"], answer: 2 },
+    { q: "55. Which of the following pulse crops is grown as a Rabi crop?", options: ["Udad", "Mung", "Gram", "Math"], answer: 2 },
+    { q: "56. Gujarat ranks first in India in the production of which condiment?", options: ["Isabgul", "Fenugreek", "Mustard", "Coriander"], answer: 0 },
+    { q: "57. What primary raw material is chocolate made from?", options: ["Til", "Cocoa", "Rubber", "Tea"], answer: 1 },
+    { q: "58. Which Indian state produces the maximum amount of groundnut?", options: ["Kerala", "Tamil Nadu", "Madhya Pradesh", "Gujarat"], answer: 3 },
+    { q: "59. In which farming type are chemical fertilizers and chemical insecticides strictly avoided?", options: ["Organic farming", "Mixed farming", "Plantation", "Sustainable farming"], answer: 0 },
+    { q: "60. Which type of farming yields the lowest per hectare production?", options: ["Plantation", "Jhoom cultivation", "Intensive cultivation", "Wet farming"], answer: 1 },
+    { q: "61. Which of the following occupations belongs to the Primary Sector?", options: ["Education", "Industry", "Cattle breeding", "Banking"], answer: 2 },
+    { q: "62. Which economic system is also popularly known as 'Free Economy'?", options: ["Market System", "Socialist System", "Mixed Economy", "All of these"], answer: 0 },
+    { q: "63. Who efficiently combines all three factors of production?", options: ["Capital", "Land", "Labour", "Entrepreneur"], answer: 3 },
+    { q: "64. Market System in economics is also referred to as:", options: ["Socialist system", "Mixed Economy", "Free Economy", "None of these"], answer: 2 },
+    { q: "65. According to World Bank Report 2004, what was the minimum per capita income for a developing country?", options: ["$480", "$520", "$735", "$250"], answer: 2 },
+    { q: "66. Economically, India is classified as which type of country?", options: ["Developed", "Backward", "Developing", "Poor"], answer: 2 },
+    { q: "67. Animal Husbandry is categorized under which sector of the economy?", options: ["Secondary", "Primary", "Service sector", "Tertiary"], answer: 1 },
+    { q: "68. What kind of economy does India represent?", options: ["Developed", "Backward", "Developing", "Poor"], answer: 2 },
+    { q: "69. The process of connecting a nation's economy with the global economy is:", options: ["Privatization", "Globalization", "Liberalization", "None of these"], answer: 1 },
+    { q: "70. On which date is 'World Environment Day' celebrated across the globe?", options: ["8 March", "11 June", "5 June", "12 March"], answer: 2 },
+    { q: "71. In which year was the first Earth Conference held for environmental awareness?", options: ["1972", "1951", "1992", "2014"], answer: 0 },
+    { q: "72. Where are the official headquarters of the World Trade Organization (WTO) situated?", options: ["Stockholm", "Geneva", "London", "Kolkata"], answer: 1 },
+    { q: "73. What was the percentage rate of poverty recorded in India in 2011-12?", options: ["21.65%", "26.93%", "36.93%", "21.92%"], answer: 3 },
+    { q: "74. Which state in India recorded the highest rate of poverty according to census data?", options: ["Uttar Pradesh", "Odisha", "Chhattisgarh", "Bihar"], answer: 2 },
+
+    // Converted One-Sentence Questions 75-96
+    { q: "75. What is the total length of the coastline of India (including islands)?", options: ["6100 km", "7516.6 km", "5000 km", "8100 km"], answer: 1 },
+    { q: "76. Which animals are depicted on the official National Emblem / Currency of India?", options: ["Lion, Horse, and Bull", "Elephant, Tiger, and Deer", "Lion, Tiger, and Peacock", "Bull, Rhino, and Elephant"], answer: 0 },
+    { q: "77. What was the original name given to the regions inhabited by Aryans?", options: ["Aryavarta / Saptasindhu", "Bharatvarsha", "Dravidland", "Hindustan"], answer: 0 },
+    { q: "78. What is trade carried out between two or more different countries called?", options: ["Internal trade", "Foreign / International trade", "Local trade", "State trade"], answer: 1 },
+    { q: "79. Which major philosophical paths are explained in Shrimad Bhagwad Gita?", options: ["Karma, Bhakti, and Jnana", "Arth, Kama, and Moksha", "Truth and Non-violence", "Yoga and Meditation"], answer: 0 },
+    { q: "80. How many Vedas are there in Indian ancient literature?", options: ["Three", "Four", "Five", "Six"], answer: 1 },
+    { q: "81. What are 'Solitary Resources'?", options: ["Resources available everywhere", "Resources found in many countries", "Minerals available at only one or two places in the world", "Renewable sources of energy"], answer: 2 },
+    { q: "82. How is 'Soil Erosion' defined?", options: ["Formation of new soil particles", "Transportation of soil particles by wind and water", "Loss of moisture in soil", "Mixing organic waste in fields"], answer: 1 },
+    { q: "83. What is any element in nature that satisfies human needs called?", options: ["Product", "Resource", "Capital", "Commodity"], answer: 1 },
+    { q: "84. What is the uppermost layer of the Earth's crust called?", options: ["Rock", "Soil", "Mantle", "Core"], answer: 1 },
+    { q: "85. Which aquatic animal, once abundant in Narmada, Tapi, Mahi, and Sabarmati, is almost extinct in Gujarat?", options: ["Gangetic Dolphin", "Freshwater Crocodile", "Water Otter (Jal Biladi)", "Blue Whale"], answer: 2 },
+    { q: "86. In which state of India is the Nal Sarovar Bird Sanctuary situated?", options: ["Rajasthan", "Gujarat", "Madhya Pradesh", "Maharashtra"], answer: 1 },
+    { q: "87. What is a primary human-made cause for the destruction of forests?", options: ["Reforestation", "Urbanization, industries, and road construction", "Wildlife conservation", "Organic farming"], answer: 1 },
+    { q: "88. What is the current presence of wild Tigers in Gujarat state?", options: ["Tigers have become extinct in Gujarat", "Found in Gir National Park", "Found in Velavadar", "Found in Dang forests only"], answer: 0 },
+    { q: "89. How does the National Income of a developing country compare to a developed country?", options: ["It is higher", "It is lower", "It is completely equal", "It is zero"], answer: 1 },
+    { q: "90. Which economic model is referred to as a 'Free Economy'?", options: ["Socialist Economy", "Market Economy", "Mixed Economy", "Planned Economy"], answer: 1 },
+    { q: "91. In which sector of the economy are Education, Banking, and Insurance included?", options: ["Primary Sector", "Secondary Sector", "Service / Tertiary Sector", "Agricultural Sector"], answer: 2 },
+    { q: "92. What is the main economic occupation of people living in developing countries?", options: ["Manufacturing Industry", "Agriculture", "Information Technology", "Mining"], answer: 1 },
+    { q: "93. Which services form part of the Service (Tertiary) Sector?", options: ["Farming and Forestry", "Transport, Communication, Banking, and Health", "Manufacturing and Construction", "Mining and Quarrying"], answer: 1 },
+    { q: "94. A mother bringing up her child is an example of what type of activity?", options: ["Economic Activity", "Non-economic Activity", "Commercial Activity", "Primary Activity"], answer: 1 },
+    { q: "95. What is the government policy that reduces restrictions and controls on private enterprise called?", options: ["Globalization", "Economic Liberalization", "Nationalization", "Socialism"], answer: 1 },
+    { q: "96. What is the full form of the abbreviation 'WTO'?", options: ["World Trade Organization", "World Tourism Organization", "World Transport Office", "Western Trade Order"], answer: 0 }
+];
+
+function renderQuiz() {
+    const container = document.getElementById("questions-container");
+    container.innerHTML = "";
+
+    quizData.forEach((data, index) => {
+        const qCard = document.createElement("div");
+        qCard.className = "q-card";
+        qCard.id = `q-card-${index}`;
+
+        const qText = document.createElement("div");
+        qText.className = "q-text";
+        qText.innerText = data.q;
+        qCard.appendChild(qText);
+
+        const optionsGrid = document.createElement("div");
+        optionsGrid.className = "options-grid";
+
+        data.options.forEach((opt, optIdx) => {
+            const label = document.createElement("label");
+            label.className = "option-btn";
+            label.id = `opt-label-${index}-${optIdx}`;
+
+            const radio = document.createElement("input");
+            radio.type = "radio";
+            radio.name = `q${index}`;
+            radio.value = optIdx;
+
+            label.appendChild(radio);
+            label.appendChild(document.createTextNode(opt));
+            optionsGrid.appendChild(label);
+        });
+
+        qCard.appendChild(optionsGrid);
+        container.appendChild(qCard);
+    });
+}
+
+function evaluateQuiz() {
+    let score = 0;
+
+    quizData.forEach((data, index) => {
+        const selected = document.querySelector(`input[name="q${index}"]:checked`);
+        const card = document.getElementById(`q-card-${index}`);
+
+        // Reset styling
+        data.options.forEach((_, optIdx) => {
+            const label = document.getElementById(`opt-label-${index}-${optIdx}`);
+            label.classList.remove("correct-opt", "incorrect-opt");
+        });
+
+        if (selected) {
+            const val = parseInt(selected.value);
+            if (val === data.answer) {
+                score++;
+                document.getElementById(`opt-label-${index}-${val}`).classList.add("correct-opt");
+            } else {
+                document.getElementById(`opt-label-${index}-${val}`).classList.add("incorrect-opt");
+                document.getElementById(`opt-label-${index}-${data.answer}`).classList.add("correct-opt");
+            }
+        } else {
+            // Highlight right answer if missed
+            document.getElementById(`opt-label-${index}-${data.answer}`).classList.add("correct-opt");
+        }
+    });
+
+    // Display Results
+    const scoreDisplay = document.getElementById("score-display");
+    const resultsBox = document.getElementById("results-box");
+    const finalScore = document.getElementById("final-score");
+    const feedbackMsg = document.getElementById("feedback-msg");
+
+    scoreDisplay.innerText = `Score: ${score} / 96`;
+    finalScore.innerText = `You Scored: ${score} / 96 (${((score/96)*100).toFixed(1)}%)`;
+    
+    if (score >= 80) {
+        feedbackMsg.innerText = "Excellent performance! Outstanding knowledge of Social Science objectives.";
+    } else if (score >= 50) {
+        feedbackMsg.innerText = "Good effort! Review the missed questions highlighted in green.";
+    } else {
+        feedbackMsg.innerText = "Needs revision. Go through the highlighted correct answers to improve.";
+    }
+
+    resultsBox.style.display = "block";
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Initialize test on load
+renderQuiz();
+</script>
+</body>
+</html>
